@@ -1,0 +1,72 @@
+# k8s-deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: recommendation-engine
+  labels:
+    app: recommendation-engine
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: recommendation-engine
+  template:
+    metadata:
+      labels:
+        app: recommendation-engine
+    spec:
+      containers:
+      - name: recommendation-engine
+        image: your-registry/ecommerce-kafka:latest
+        command: ["python", "recommendation_engine.py"]
+        env:
+        - name: CONFLUENT_BOOTSTRAP_SERVERS
+          valueFrom:
+            secretKeyRef:
+              name: confluent-secrets
+              key: bootstrap-servers
+        - name: CONFLUENT_API_KEY
+          valueFrom:
+            secretKeyRef:
+              name: confluent-secrets
+              key: api-key
+        - name: CONFLUENT_API_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: confluent-secrets
+              key: api-secret
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          exec:
+            command:
+            - python
+            - health_check.py
+          initialDelaySeconds: 30
+          periodSeconds: 60
+        readinessProbe:
+          exec:
+            command:
+            - python
+            - health_check.py
+          initialDelaySeconds: 10
+          periodSeconds: 30
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: confluent-secrets
+type: Opaque
+data:
+  bootstrap-servers: <base64-encoded-bootstrap-servers>
+  api-key: <base64-encoded-api-key>
+  api-secret: <base64-encoded-api-secret>
+  schema-registry-url: <base64-encoded-schema-registry-url>
+  schema-registry-key: <base64-encoded-schema-registry-key>
+  schema-registry-secret: <base64-encoded-schema-registry-secret>

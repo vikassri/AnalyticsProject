@@ -1,0 +1,14 @@
+{
+  "name": "http-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.http.HttpSinkConnector",
+    "tasks.max": "2",
+    "topics": "fraud-alerts,low-inventory-alerts",
+    "http.api.url": "https://your-webhook-endpoint.com/alerts",
+    "request.method": "POST",
+    "headers": "Content-Type:application/json|Authorization:Bearer your-token",
+    "batch.max.size": "1",
+    "retry.backoff.ms": "3000",
+    "max.retries": "3"
+  }
+}

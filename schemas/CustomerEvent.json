@@ -1,0 +1,17 @@
+{
+  "type": "record",
+  "name": "CustomerEvent",
+  "namespace": "ecommerce.events",
+  "fields": [
+    {"name": "user_id", "type": "string"},
+    {"name": "session_id", "type": "string"},
+    {"name": "event_type", "type": {"type": "enum", "name": "EventType", "symbols": ["page_view", "product_view", "add_to_cart", "search", "click"]}},
+    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+    {"name": "page_url", "type": ["null", "string"], "default": null},
+    {"name": "product_id", "type": ["null", "string"], "default": null},
+    {"name": "search_query", "type": ["null", "string"], "default": null},
+    {"name": "user_agent", "type": "string"},
+    {"name": "ip_address", "type": "string"},
+    {"name": "referrer", "type": ["null", "string"], "default": null}
+  ]
+}

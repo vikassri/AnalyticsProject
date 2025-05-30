@@ -1,0 +1,15 @@
+{
+  "name": "bigquery-sink-connector",
+  "config": {
+    "connector.class": "com.wepay.kafka.connect.bigquery.BigQuerySinkConnector",
+    "tasks.max": "2",
+    "topics": "order-events,revenue-aggregates",
+    "project": "your-gcp-project",
+    "defaultDataset": "ecommerce_analytics",
+    "keyfile": "/path/to/service-account-key.json",
+    "autoCreateTables": "true",
+    "sanitizeTopics": "true",
+    "allowNewBigQueryFields": "true",
+    "allowBigQueryRequiredFieldRelaxation": "true"
+  }
+}

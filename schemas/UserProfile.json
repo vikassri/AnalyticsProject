@@ -1,0 +1,21 @@
+{
+  "type": "record",
+  "name": "UserProfile",
+  "namespace": "ecommerce.profiles",
+  "fields": [
+    {"name": "user_id", "type": "string"},
+    {"name": "email", "type": "string"},
+    {"name": "first_name", "type": "string"},
+    {"name": "last_name", "type": "string"},
+    {"name": "date_of_birth", "type": ["null", {"type": "int", "logicalType": "date"}], "default": null},
+    {"name": "gender", "type": ["null", "string"], "default": null},
+    {"name": "registration_date", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+    {"name": "preferences", "type": {
+      "type": "array",
+      "items": "string"
+    }},
+    {"name": "loyalty_tier", "type": {"type": "enum", "name": "LoyaltyTier", "symbols": ["bronze", "silver", "gold", "platinum"]}},
+    {"name": "total_spent", "type": "double", "default": 0.0},
+    {"name": "order_count", "type": "int", "default": 0}
+  ]
+}

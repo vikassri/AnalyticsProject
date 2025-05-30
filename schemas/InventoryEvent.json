@@ -1,0 +1,17 @@
+{
+  "type": "record",
+  "name": "InventoryEvent",
+  "namespace": "ecommerce.events",
+  "fields": [
+    {"name": "product_id", "type": "string"},
+    {"name": "sku", "type": "string"},
+    {"name": "event_type", "type": {"type": "enum", "name": "InventoryEventType", "symbols": ["stock_update", "price_change", "product_added", "product_removed"]}},
+    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+    {"name": "current_stock", "type": "int"},
+    {"name": "previous_stock", "type": ["null", "int"], "default": null},
+    {"name": "current_price", "type": "double"},
+    {"name": "previous_price", "type": ["null", "double"], "default": null},
+    {"name": "category", "type": "string"},
+    {"name": "warehouse_id", "type": "string"}
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "type": "record",
+  "name": "OrderEvent",
+  "namespace": "ecommerce.events",
+  "fields": [
+    {"name": "order_id", "type": "string"},
+    {"name": "user_id", "type": "string"},
+    {"name": "event_type", "type": {"type": "enum", "name": "OrderEventType", "symbols": ["created", "updated", "cancelled", "shipped", "delivered", "returned"]}},
+    {"name": "timestamp", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+    {"name": "total_amount", "type": "double"},
+    {"name": "currency", "type": "string", "default": "USD"},
+    {"name": "items", "type": {
+      "type": "array",
+      "items": {
+        "type": "record",
+        "name": "OrderItem",
+        "fields": [
+          {"name": "product_id", "type": "string"},
+          {"name": "quantity", "type": "int"},
+          {"name": "price", "type": "double"},
+          {"name": "category", "type": "string"}
+        ]
+      }
+    }},
+    {"name": "shipping_address", "type": {
+      "type": "record",
+      "name": "Address",
+      "fields": [
+        {"name": "street", "type": "string"},
+        {"name": "city", "type": "string"},
+        {"name": "state", "type": "string"},
+        {"name": "zip_code", "type": "string"},
+        {"name": "country", "type": "string"}
+      ]
+    }},
+    {"name": "payment_method", "type": "string"}
+  ]
+}

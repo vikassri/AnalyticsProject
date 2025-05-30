@@ -1,0 +1,19 @@
+{
+  "name": "elasticsearch-sink-connector",
+  "config": {
+    "connector.class": "io.confluent.connect.elasticsearch.ElasticsearchSinkConnector",
+    "tasks.max": "3",
+    "topics": "customer-events,order-events,fraud-alerts",
+    "connection.url": "https://your-elasticsearch-cluster.com:9200",
+    "connection.username": "elastic_user",
+    "connection.password": "elastic_password",
+    "type.name": "_doc",
+    "key.ignore": "false",
+    "schema.ignore": "false",
+    "transforms": "TimestampConverter",
+    "transforms.TimestampConverter.type": "org.apache.kafka.connect.transforms.TimestampConverter$Value",
+    "transforms.TimestampConverter.target.type": "string",
+    "transforms.TimestampConverter.field": "timestamp",
+    "transforms.TimestampConverter.format": "yyyy-MM-dd HH:mm:ss"
+  }
+}

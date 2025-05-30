@@ -1,0 +1,13 @@
+{
+  "name": "redis-sink-connector",
+  "config": {
+    "connector.class": "com.github.jcustenborder.kafka.connect.redis.RedisSinkConnector",
+    "tasks.max": "2",
+    "topics": "recommendations,user-profiles",
+    "redis.hosts": "your-redis-cluster.com:6379",
+    "redis.password": "redis_password",
+    "redis.database": "0",
+    "key.serializer": "org.apache.kafka.common.serialization.StringSerializer",
+    "value.serializer": "org.apache.kafka.common.serialization.StringSerializer"
+  }
+}
