@@ -1,11 +1,15 @@
-# customer_events_consumer.py
-
 from confluent_kafka import Consumer
+from confluent_kafka.schema_registry.avro import AvroDeserializer
 from confluent_kafka.serialization import SerializationContext, MessageField
 from schema_client import SchemaManager
 from config import CONFLUENT_CONFIG
 import json
-import sys
+from datetime import datetime
+
+def json_serial(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    raise TypeError(f"Type {type(obj)} not serializable")
 
 class CustomerEventsConsumer:
     def __init__(self, group_id="customer-events-consumer-group"):
@@ -37,7 +41,7 @@ class CustomerEventsConsumer:
 
                 key = msg.key().decode('utf-8') if msg.key() else None
                 print(f"\nReceived event with key: {key}")
-                print(json.dumps(value, indent=2))
+                print(json.dumps(value, indent=2, default=json_serial))
 
         except KeyboardInterrupt:
             print("Consumer interrupted. Shutting down...")
