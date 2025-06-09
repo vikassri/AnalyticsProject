@@ -1,11 +1,10 @@
-# order_events_consumer.py
-
 from confluent_kafka import Consumer
 from confluent_kafka.serialization import SerializationContext, MessageField
 from schema_client import SchemaManager
 from config import CONFLUENT_CONFIG
 import json
 import sys
+import datetime
 
 class OrderEventsConsumer:
     def __init__(self, group_id="order-events-consumer-group"):
@@ -17,6 +16,11 @@ class OrderEventsConsumer:
         self.consumer = Consumer(self.config)
         self.schema_manager = SchemaManager()
         self.avro_deserializer = self.schema_manager.get_avro_deserializer()
+
+    def datetime_serializer(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()  # Or use: int(obj.timestamp() * 1000) for epoch millis
+        raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
 
     def consume_events(self, topic='order-events', timeout=1.0):
         self.consumer.subscribe([topic])
@@ -38,7 +42,7 @@ class OrderEventsConsumer:
 
                 key = msg.key().decode('utf-8') if msg.key() else None
                 print(f"\nReceived message with key: {key}")
-                print(json.dumps(value, indent=2))
+                print(json.dumps(value, indent=2, default=self.datetime_serializer))
 
         except KeyboardInterrupt:
             print("Consumer interrupted. Closing...")
