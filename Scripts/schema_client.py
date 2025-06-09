@@ -1,6 +1,6 @@
 # schema_client.py
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
-from confluent_kafka.schema_registry.avro import AvroSerializer
+from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
 from config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
 import json
 
@@ -19,6 +19,9 @@ class SchemaManager:
     
     def get_avro_serializer(self, schema_str):
         return AvroSerializer(self.schema_registry_client, schema_str)
+    
+    def get_avro_deserializer(self):
+        return AvroDeserializer(self.schema_registry_client)
     
     def export_schema(self, subject):
         try:
