@@ -15,6 +15,10 @@ CONFLUENT_SCHEMA_REGISTRY_CONFIG = {
 
 
 CLOUDERA_SCHEMA_REGISTRY_CONFIG = {
-    'url': 'https://psrc-6ood18.us-east1.gcp.confluent.cloud',
-    'basic.auth.user.info': f"{os.environ.get('sr_api_key','')}:{os.environ.get('sr_api_secret','')}"
+    'url': 'https://ccycloud.cdpy.root.comops.site:7790/api/v1/schemaregistry',
+    'verify_ssl': False,  # Set to True if you want to verify SSL certificates
+    'auth': {
+        'username': os.environ.get('cloudera_username', 'admin'),
+        'password': os.environ.get('cloudera_password', 'admin')
+    }
 }
