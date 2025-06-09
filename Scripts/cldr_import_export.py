@@ -93,8 +93,14 @@ def import_to_cloudera():
         else:
             # For non-Avro schemas, we assume JSON format
             # Adjust this logic if you have other schema types
+            # Modify the schema's top-level type from "record" to "string"
+ 
+            parsed_schema = json.loads(json.loads(schema_text.strip()))
+            if parsed_schema["type"] == "record" and schema_type.lower() == "json":
+                parsed_schema["type"] = "string"
+                
             schema_payload = {
-                "schemaText": json.loads(schema_text),
+                "schemaText": json.dumps(parsed_schema),
                 "description": f"Version of {name} imported from Confluent Cloud",
             }
           
@@ -110,7 +116,7 @@ def import_to_cloudera():
 
 if __name__ == "__main__":
     print("📤 Exporting schemas from Confluent Cloud...")
-    export_confluent_schemas()
+    #export_confluent_schemas()
 
     print("\n📥 Importing schemas into Cloudera Schema Registry...")
     import_to_cloudera()
