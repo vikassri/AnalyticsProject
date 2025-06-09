@@ -56,15 +56,23 @@ def import_to_cloudera():
         schema_text = schema_info["schema"]
         schema_type = schema_info.get("schemaType", "avro")
         #schema_type = "avro"
-
-        payload = {
-            "name": name,
-            "type": schema_type,
-            "compatibility": "BACKWARD",
-            "evolve": True,
-            "schemaGroup": SCHEMA_GROUP,
-            "description": f"Imported from Confluent Cloud: {name}"
-        }
+        if schema_type.lower() == "avro":
+            payload = {
+                "name": name,
+                "type": schema_type,
+                "compatibility": "BACKWARD",
+                "evolve": True,
+                "schemaGroup": SCHEMA_GROUP,
+                "description": f"Imported from Confluent Cloud: {name}"
+            }
+        else:
+            payload = {
+                "name": name,
+                "type": schema_type,
+                "schemaGroup": SCHEMA_GROUP,
+                "description": f"Imported from Confluent Cloud: {name}"
+            }
+            
         url = f"{CLOUDERA_URL}/schemas"
         headers = {"Content-Type": "application/json"}
 
