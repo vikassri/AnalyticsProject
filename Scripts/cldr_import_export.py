@@ -28,8 +28,9 @@ def export_confluent_schemas():
     resp.raise_for_status()
     subjects = resp.json()
 
+    schema_list = [topic.strip() for topic in open(os.path.join(".", "migrated_schema_list.txt"), "r")]
     print(f"🔍 Found {len(subjects)} subjects in Confluent.")
-    for subject in subjects:
+    for subject in schema_list:
         schema_url = f"{CONFLUENT_URL}/subjects/{subject}/versions/latest"
         schema_resp = requests.get(schema_url, auth=CONFLUENT_AUTH)
         schema_resp.raise_for_status()
@@ -53,7 +54,7 @@ def import_to_cloudera():
 
         name = schema_info["subject"]
         schema_text = schema_info["schema"]
-        schema_type = schema_info.get("schemaType", "AVRO").upper()
+        schema_type = schema_info.get("schemaType", "avro")
         #schema_type = "avro"
 
         payload = {
@@ -76,7 +77,15 @@ def import_to_cloudera():
         else:
             print(f"[✗] Failed to import {name}. Status: {resp.status_code}, Msg: {resp.text}")            
     
-        schema_payload = {
+        if schema_type.lower() == "avro":
+            schema_payload = {
+                "schemaText": schema_text,
+                "description": f"Version of {name} imported from Confluent Cloud",
+            }
+        else:
+            # For non-Avro schemas, we assume JSON format
+            # Adjust this logic if you have other schema types
+            schema_payload = {
                 "schemaText": json.loads(schema_text),
                 "description": f"Version of {name} imported from Confluent Cloud",
             }
@@ -95,5 +104,5 @@ if __name__ == "__main__":
     print("📤 Exporting schemas from Confluent Cloud...")
     export_confluent_schemas()
 
-    #print("\n📥 Importing schemas into Cloudera Schema Registry...")
-    #import_to_cloudera()
+    print("\n📥 Importing schemas into Cloudera Schema Registry...")
+    import_to_cloudera()

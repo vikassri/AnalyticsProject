@@ -1,13 +1,12 @@
-import os
-import json
 import requests, urllib3
 from requests.auth import HTTPBasicAuth
+from config import CLOUDERA_SCHEMA_REGISTRY_CONFIG
 
 # === ENVIRONMENT CONFIGURATION ===
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Cloudera Schema Registry
-CLOUDERA_URL = "https://ccycloud.cdpy.root.comops.site:7790/api/v1/schemaregistry"
+CLOUDERA_URL = CLOUDERA_SCHEMA_REGISTRY_CONFIG.get('url')
 CLOUDERA_AUTH = HTTPBasicAuth("", "")
 VERIFY_SSL = False  # or False to skip verification
 

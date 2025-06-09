@@ -1,5 +1,4 @@
 anyio==4.9.0
-apache-beam==2.61.0
 apache-flink==2.0.0
 apache-flink-libraries==2.0.0
 attrs==25.3.0

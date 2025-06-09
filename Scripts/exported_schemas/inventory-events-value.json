@@ -1,0 +1,6 @@
+{
+  "subject": "inventory-events-value",
+  "version": 3,
+  "id": 100007,
+  "schema": "{\"type\":\"record\",\"name\":\"KsqlDataSourceSchema\",\"namespace\":\"io.confluent.ksql.avro_schemas\",\"fields\":[{\"name\":\"PRODUCT_ID\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"SKU\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"EVENT_TYPE\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"TIMESTAMP\",\"type\":[\"null\",\"long\"],\"default\":null},{\"name\":\"CURRENT_STOCK\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"PREVIOUS_STOCK\",\"type\":[\"null\",\"int\"],\"default\":null},{\"name\":\"CURRENT_PRICE\",\"type\":[\"null\",\"double\"],\"default\":null},{\"name\":\"PREVIOUS_PRICE\",\"type\":[\"null\",\"double\"],\"default\":null},{\"name\":\"CATEGORY\",\"type\":[\"null\",\"string\"],\"default\":null},{\"name\":\"WAREHOUSE_ID\",\"type\":[\"null\",\"string\"],\"default\":null}],\"connect.name\":\"io.confluent.ksql.avro_schemas.KsqlDataSourceSchema\"}"
+}

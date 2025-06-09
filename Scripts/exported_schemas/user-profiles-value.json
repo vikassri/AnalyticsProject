@@ -1,0 +1,7 @@
+{
+  "subject": "user-profiles-value",
+  "version": 3,
+  "id": 100004,
+  "schemaType": "JSON",
+  "schema": "\"{\\n  \\\"type\\\": \\\"record\\\",\\n  \\\"name\\\": \\\"UserProfile\\\",\\n  \\\"namespace\\\": \\\"ecommerce.profiles\\\",\\n  \\\"fields\\\": [\\n    {\\\"name\\\": \\\"user_id\\\", \\\"type\\\": \\\"string\\\"},\\n    {\\\"name\\\": \\\"email\\\", \\\"type\\\": \\\"string\\\"},\\n    {\\\"name\\\": \\\"first_name\\\", \\\"type\\\": \\\"string\\\"},\\n    {\\\"name\\\": \\\"last_name\\\", \\\"type\\\": \\\"string\\\"},\\n    {\\\"name\\\": \\\"date_of_birth\\\", \\\"type\\\": [\\\"null\\\", {\\\"type\\\": \\\"int\\\", \\\"logicalType\\\": \\\"date\\\"}], \\\"default\\\": null},\\n    {\\\"name\\\": \\\"gender\\\", \\\"type\\\": [\\\"null\\\", \\\"string\\\"], \\\"default\\\": null},\\n    {\\\"name\\\": \\\"registration_date\\\", \\\"type\\\": {\\\"type\\\": \\\"long\\\", \\\"logicalType\\\": \\\"timestamp-millis\\\"}},\\n    {\\\"name\\\": \\\"preferences\\\", \\\"type\\\": {\\n      \\\"type\\\": \\\"array\\\",\\n      \\\"items\\\": \\\"string\\\"\\n    }},\\n    {\\\"name\\\": \\\"loyalty_tier\\\", \\\"type\\\": {\\\"type\\\": \\\"enum\\\", \\\"name\\\": \\\"LoyaltyTier\\\", \\\"symbols\\\": [\\\"bronze\\\", \\\"silver\\\", \\\"gold\\\", \\\"platinum\\\"]}},\\n    {\\\"name\\\": \\\"total_spent\\\", \\\"type\\\": \\\"double\\\", \\\"default\\\": 0.0},\\n    {\\\"name\\\": \\\"order_count\\\", \\\"type\\\": \\\"int\\\", \\\"default\\\": 0}\\n  ]\\n}\""
+}
