@@ -54,7 +54,7 @@ def import_to_cloudera():
 
         name = schema_info["subject"]
         schema_text = schema_info["schema"]
-        schema_type = schema_info.get("schemaType", "avro")
+        schema_type = schema_info.get("schemaType", "avro").lower()
         #schema_type = "avro"
         if schema_type.lower() == "avro":
             payload = {
