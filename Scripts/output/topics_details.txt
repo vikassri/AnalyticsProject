@@ -1,0 +1,9 @@
+inventory-alerts|3|3
+customers|6|3
+recommendations|6|3
+order-events|6|3
+revenue-aggregates|3|3
+customer-events|6|3
+inventory-events|3|3
+fraud-alerts|3|3
+user-profiles|6|3

@@ -1,18 +1,14 @@
 from confluent_kafka import Consumer
-from confluent_kafka.schema_registry.avro import AvroDeserializer
 from confluent_kafka.serialization import SerializationContext, MessageField
-from schema_client import SchemaManager
-from config import CONFLUENT_CONFIG
+from AnalyticsProject.Scripts.Confluent.schema_client import SchemaManager
+from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_CONFIG
 import json
-from datetime import datetime
+import sys
+import datetime
 
-def json_serial(obj):
-    if isinstance(obj, datetime):
-        return obj.isoformat()
-    raise TypeError(f"Type {type(obj)} not serializable")
-
-class CustomerEventsConsumer:
-    def __init__(self, group_id="customer-events-consumer-group"):
+class OrderEventsConsumer:
+    def __init__(self, group_id="order-events-consumer-group"):
+        # Add group.id to config
         self.config = dict(CONFLUENT_CONFIG)
         self.config["group.id"] = group_id
         self.config["auto.offset.reset"] = "earliest"
@@ -21,7 +17,12 @@ class CustomerEventsConsumer:
         self.schema_manager = SchemaManager()
         self.avro_deserializer = self.schema_manager.get_avro_deserializer()
 
-    def consume_events(self, topic='customer-events', timeout=1.0):
+    def datetime_serializer(self, obj):
+        if isinstance(obj, datetime.datetime):
+            return obj.isoformat()  # Or use: int(obj.timestamp() * 1000) for epoch millis
+        raise TypeError(f"Object of type {obj.__class__.__name__} is not JSON serializable")
+
+    def consume_events(self, topic='order-events', timeout=1.0):
         self.consumer.subscribe([topic])
         print(f"Subscribed to topic: {topic}")
 
@@ -40,15 +41,15 @@ class CustomerEventsConsumer:
                 )
 
                 key = msg.key().decode('utf-8') if msg.key() else None
-                print(f"\nReceived event with key: {key}")
-                print(json.dumps(value, indent=2, default=json_serial))
+                print(f"\nReceived message with key: {key}")
+                print(json.dumps(value, indent=2, default=self.datetime_serializer))
 
         except KeyboardInterrupt:
-            print("Consumer interrupted. Shutting down...")
+            print("Consumer interrupted. Closing...")
 
         finally:
             self.consumer.close()
 
 if __name__ == "__main__":
-    consumer = CustomerEventsConsumer()
+    consumer = OrderEventsConsumer()
     consumer.consume_events()

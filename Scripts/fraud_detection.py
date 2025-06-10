@@ -1,6 +1,6 @@
 # fraud_detection.py
 from confluent_kafka import Consumer, Producer
-from config import CONFLUENT_CONFIG
+from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_CONFIG
 import json
 import time
 from collections import defaultdict

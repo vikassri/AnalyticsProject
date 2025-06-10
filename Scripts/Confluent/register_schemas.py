@@ -1,4 +1,4 @@
-from schema_client import SchemaManager
+from AnalyticsProject.Scripts.Confluent.schema_client import SchemaManager
 import json
 
 # This script registers all schemas for the Kafka topics used in the project.
@@ -6,10 +6,10 @@ def register_all_schemas():
     schema_manager = SchemaManager()
     
     schemas = {
-        'customer-events-value': f'{open("../schemas/CustomerEvent.json").read()}',
-        'order-events-value':    f'{open("../schemas/OrderEvent.json").read()}',
-        'inventory-events-value': f'{open("../schemas/InventoryEvent.json").read()}',
-        'user-profiles-value':   f'{open("../schemas/UserProfile.json").read()}',
+        'customer-events-value': f'{open("../../schemas/CustomerEvent.json").read()}',
+        'order-events-value':    f'{open("../../schemas/OrderEvent.json").read()}',
+        'inventory-events-value': f'{open("../../schemas/InventoryEvent.json").read()}',
+        'user-profiles-value':   f'{open("../../schemas/UserProfile.json").read()}',
     }
     
     for subject, schema_str in schemas.items():

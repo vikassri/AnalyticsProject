@@ -1,7 +1,7 @@
 # health_check.py
 from confluent_kafka import Consumer, Producer
 from confluent_kafka.admin import AdminClient
-from config import CONFLUENT_CONFIG
+from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_CONFIG
 import time, os, sys
 
 class SuppressStderr:

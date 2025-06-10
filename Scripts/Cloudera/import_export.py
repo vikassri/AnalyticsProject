@@ -2,21 +2,24 @@ import os
 import json
 import requests, urllib3
 from requests.auth import HTTPBasicAuth
+from AnalyticsProject.Scripts.Cloudera.config import  CLOUDERA_SCHEMA_REGISTRY_CONFIG
+from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
 
 # === ENVIRONMENT CONFIGURATION ===
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
 # Confluent Schema Registry (Cloud)
-CONFLUENT_URL = 'https://psrc-6ood18.us-east1.gcp.confluent.cloud'
-CONFLUENT_API_KEY = os.environ.get('sr_api_key')
-CONFLUENT_API_SECRET = os.environ.get('sr_api_secret')
+
+CONFLUENT_URL = CONFLUENT_SCHEMA_REGISTRY_CONFIG['url']
+CONFLUENT_API_KEY = CONFLUENT_SCHEMA_REGISTRY_CONFIG['user']
+CONFLUENT_API_SECRET = CONFLUENT_SCHEMA_REGISTRY_CONFIG['password']
 CONFLUENT_AUTH = HTTPBasicAuth(CONFLUENT_API_KEY, CONFLUENT_API_SECRET)
 
 # Cloudera Schema Registry
-CLOUDERA_URL = "https://ccycloud.cdpy.root.comops.site:7790/api/v1/schemaregistry"
+CLOUDERA_URL = CLOUDERA_SCHEMA_REGISTRY_CONFIG['url']
 VERIFY_SSL = False  # or False to skip verification
 
-EXPORT_DIR = "exported_schemas"
+EXPORT_DIR = os.path.dirname(os.path.abspath(__file__)) + "/../exported_schemas"
 SCHEMA_GROUP = "Kafka"  # or your desired schema group
 
 # === EXPORT FROM CONFLUENT ===
@@ -28,7 +31,7 @@ def export_confluent_schemas():
     resp.raise_for_status()
     subjects = resp.json()
 
-    schema_list = [topic.strip() for topic in open(os.path.join(".", "migrated_schema_list.txt"), "r")]
+    schema_list = [topic.strip() for topic in open(os.path.join(".", "./../output/migrated_schema_list.txt"), "r")]
     print(f"🔍 Found {len(subjects)} subjects in Confluent.")
     for subject in schema_list:
         schema_url = f"{CONFLUENT_URL}/subjects/{subject}/versions/latest"
@@ -116,7 +119,7 @@ def import_to_cloudera():
 
 if __name__ == "__main__":
     print("📤 Exporting schemas from Confluent Cloud...")
-    #export_confluent_schemas()
+    export_confluent_schemas()
 
     print("\n📥 Importing schemas into Cloudera Schema Registry...")
     import_to_cloudera()

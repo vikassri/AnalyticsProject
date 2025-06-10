@@ -1,8 +1,8 @@
 # schema_client.py
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
-from config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
-import json
+from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
+import json, os
 
 class SchemaManager:
     def __init__(self):
@@ -71,6 +71,9 @@ class SchemaManager:
         
 scm = SchemaManager()
 schemas = scm.list_schemas()
+os.makedirs("output", exist_ok=True)
+f = open(os.path.dirname(os.path.abspath(__file__)) + "/../output/migrated_schema_list.txt", "w")
 for schema in schemas:
-    print(scm.export_schema(schema))
-# Example usage
+    if not schema.startswith("_") and not schema.startswith("pksql"):
+        print(f"Exporting schema for subject: {schema}")
+        f.write(f"{schema}\n")
