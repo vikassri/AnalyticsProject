@@ -1,3 +1,5 @@
+#python unified_kafka_consumer.py --env confluent --topic order-events --group-id mygroup
+
 from confluent_kafka import Consumer
 import json
 import datetime

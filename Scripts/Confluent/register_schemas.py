@@ -1,4 +1,4 @@
-from AnalyticsProject.Scripts.Confluent.schema_client import SchemaManager
+from schema_client import SchemaManager
 import json
 
 # This script registers all schemas for the Kafka topics used in the project.

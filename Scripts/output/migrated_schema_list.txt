@@ -1,4 +1,4 @@
-customer-events-value
 user-profiles-value
 inventory-events-value
+customer-events-value
 order-events-value

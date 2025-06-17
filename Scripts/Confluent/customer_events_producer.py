@@ -1,8 +1,8 @@
 # customer_events_producer.py
 from confluent_kafka import Producer
 from confluent_kafka.serialization import SerializationContext, MessageField
-from AnalyticsProject.Scripts.Confluent.schema_client import SchemaManager
-from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_CONFIG
+from schema_client import SchemaManager
+from config import CONFLUENT_CONFIG
 import json
 import time
 import random

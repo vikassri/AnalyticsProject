@@ -2,8 +2,8 @@ import os
 import json
 import requests, urllib3
 from requests.auth import HTTPBasicAuth
-from AnalyticsProject.Scripts.Cloudera.config import  CLOUDERA_SCHEMA_REGISTRY_CONFIG
-from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
+from config import  CLOUDERA_SCHEMA_REGISTRY_CONFIG
+from ..Confluent.config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
 
 # === ENVIRONMENT CONFIGURATION ===
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -11,9 +11,7 @@ urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 # Confluent Schema Registry (Cloud)
 
 CONFLUENT_URL = CONFLUENT_SCHEMA_REGISTRY_CONFIG['url']
-CONFLUENT_API_KEY = CONFLUENT_SCHEMA_REGISTRY_CONFIG['user']
-CONFLUENT_API_SECRET = CONFLUENT_SCHEMA_REGISTRY_CONFIG['password']
-CONFLUENT_AUTH = HTTPBasicAuth(CONFLUENT_API_KEY, CONFLUENT_API_SECRET)
+CONFLUENT_AUTH = CONFLUENT_SCHEMA_REGISTRY_CONFIG['basic.auth.user.info']
 
 # Cloudera Schema Registry
 CLOUDERA_URL = CLOUDERA_SCHEMA_REGISTRY_CONFIG['url']

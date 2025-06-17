@@ -1,7 +1,7 @@
 # schema_client.py
 from confluent_kafka.schema_registry import SchemaRegistryClient, Schema
 from confluent_kafka.schema_registry.avro import AvroSerializer, AvroDeserializer
-from AnalyticsProject.Scripts.Confluent.config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
+from config import CONFLUENT_SCHEMA_REGISTRY_CONFIG
 import json, os
 
 class SchemaManager:
@@ -68,7 +68,7 @@ class SchemaManager:
             print(f"Error getting schema by ID {schema_id}: {e}")
             return None
         
-        
+"""       
 scm = SchemaManager()
 schemas = scm.list_schemas()
 os.makedirs("output", exist_ok=True)
@@ -77,3 +77,4 @@ for schema in schemas:
     if not schema.startswith("_") and not schema.startswith("pksql"):
         print(f"Exporting schema for subject: {schema}")
         f.write(f"{schema}\n")
+""" 
