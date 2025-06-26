@@ -119,6 +119,7 @@ def produce_messages(environment, topic, count):
                  json.dumps(event))
 
         producer.produce(topic=topic, key=f"{event['order_id']+'_'+str(i)}", value=value, callback=delivery_report)
+        print(f"Produced message {i+1}/{count}: {event['order_id']}")
         time.sleep(1)  # adjustable rate
 
     producer.flush()
