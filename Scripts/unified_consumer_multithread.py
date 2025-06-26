@@ -36,6 +36,7 @@ def get_consumer_config(env, group_id):
 
     config["group.id"] = group_id
     config["auto.offset.reset"] = "earliest"
+    config["enable.auto.commit"] = True
     return config
 
 def process_message(msg, env, avro_deserializer, topic):

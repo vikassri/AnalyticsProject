@@ -1,0 +1,4 @@
+.Scripts/__pycache__
+.Scripts/*.pyc
+.Scripts/*.pyo
+.Scripts/*.pyd
