@@ -1,4 +1,4 @@
-# python unified_producer_multithread.py --env confluent --topic order-events --count 1000 --threads 8
+# python unified_producer.py --env confluent --topic order-events --count 1000
 
 import argparse
 import time, json
@@ -112,13 +112,13 @@ def produce_messages(environment, topic, count):
         schema_manager = SchemaManager()
         serializer = schema_manager.get_avro_serializer(ORDER_EVENT_SCHEMA)
 
-    for _ in range(count):
+    for i in range(23,count):
         event = generate_order_event()
         value = (serializer(event, SerializationContext(topic, MessageField.VALUE))
                  if environment == "confluent" else
                  json.dumps(event))
 
-        producer.produce(topic=topic, key=event['order_id'], value=value, callback=delivery_report)
+        producer.produce(topic=topic, key=f"{event['order_id']+'_'+str(i)}", value=value, callback=delivery_report)
         time.sleep(1)  # adjustable rate
 
     producer.flush()

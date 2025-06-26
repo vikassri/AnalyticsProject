@@ -1,3 +1,4 @@
+# python unified_consumer.py --env confluent --topic order-events --group-id mygroup-1
 import argparse
 import json
 import logging
@@ -24,6 +25,7 @@ def get_consumer_config(env, group_id):
 
     config["group.id"] = group_id
     config["auto.offset.reset"] = "earliest"
+
     return config
 
 def consume_messages(env, topic, group_id):

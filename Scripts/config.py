@@ -7,6 +7,7 @@ CONFLUENT_CONFIG = {
     'sasl.mechanisms': 'PLAIN',
     'sasl.username': os.environ.get('api_key',''),
     'sasl.password': os.environ.get('api_secret',''),
+    'enable.auto.commit': True
 }
 
 CONFLUENT_SCHEMA_REGISTRY_CONFIG = {
@@ -20,7 +21,7 @@ CLOUDERA_SCHEMA_REGISTRY_CONFIG = {
     'verify_ssl': False,  # Set to True if you want to verify SSL certificates
     'auth': {
         'username': os.environ.get('ldap_user', 'admin'),
-        'password': os.environ.get('ldap_pass', 'admin')
+        'password': os.environ.get('ldap_pass', 'Password1')
     }
 }
 
@@ -29,9 +30,10 @@ CLOUDERA_KAFKA_BOOTSTRAP = {
     'security.protocol': 'SASL_SSL',
     'sasl.mechanisms': 'PLAIN',
     'sasl.username': os.environ.get('ldap_user', 'admin'),
-    'sasl.password': os.environ.get('ldap_pass', 'admin'),
+    'sasl.password': os.environ.get('ldap_pass', 'Password1'),
     'ssl.ca.location': str(Path.home()) + '/certs/cm-auto-global_cacerts.pem',
     'group.id': 'cloudera_consumer_group',
     'auto.offset.reset': 'latest',
+    'enable.auto.commit': True
 }
 

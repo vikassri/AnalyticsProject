@@ -1,3 +1,4 @@
+#python unified_producer_multithread.py --env confluent --topic order-events --count 1000 --threads 8
 import argparse
 import time
 import json
