@@ -7,7 +7,6 @@ CONFLUENT_CONFIG = {
     'sasl.mechanisms': 'PLAIN',
     'sasl.username': os.environ.get('api_key',''),
     'sasl.password': os.environ.get('api_secret',''),
-    'enable.auto.commit': True
 }
 
 CONFLUENT_SCHEMA_REGISTRY_CONFIG = {
@@ -34,6 +33,5 @@ CLOUDERA_KAFKA_BOOTSTRAP = {
     'ssl.ca.location': str(Path.home()) + '/certs/cm-auto-global_cacerts.pem',
     'group.id': 'cloudera_consumer_group',
     'auto.offset.reset': 'latest',
-    'enable.auto.commit': True
 }
 
