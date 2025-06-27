@@ -108,15 +108,27 @@ def produce_messages(environment, topic, count, threads=4):
     if environment == "confluent":
         schema_manager = SchemaManager()
         serializer = schema_manager.get_avro_serializer(ORDER_EVENT_SCHEMA)
+
     batch_size = count // threads
     thread_list = []
     results = []
-    for i in range(threads):
-        t = threading.Thread(target=producer_thread, args=(producer, serializer, environment, topic, batch_size, results), name=f"ProducerThread-{i+1}")
-        thread_list.append(t)
-        t.start()
-    for t in thread_list:
-        t.join()
+
+    try:
+        for i in range(threads):
+            t = threading.Thread(
+                target=producer_thread,
+                args=(producer, serializer, environment, topic, batch_size, results),
+                name=f"ProducerThread-{i+1}"
+            )
+            thread_list.append(t)
+            t.start()
+
+        for t in thread_list:
+            t.join()
+
+    except KeyboardInterrupt:
+        logging.warning("🛑 KeyboardInterrupt detected. Flushing and stopping producers...")
+        producer.flush()
 
     total_msgs = sum(r[0] for r in results)
     total_time = sum(r[1] for r in results)
@@ -131,7 +143,11 @@ def main():
     parser.add_argument("--count", type=int, default=10, help="Number of messages to produce")
     parser.add_argument("--threads", type=int, default=4, help="Number of producer threads")
     args = parser.parse_args()
-    produce_messages(args.env, args.topic, args.count, args.threads)
+
+    try:
+        produce_messages(args.env, args.topic, args.count, args.threads)
+    except KeyboardInterrupt:
+        logging.warning("🛑 Production interrupted from terminal.")
 
 if __name__ == "__main__":
     main()

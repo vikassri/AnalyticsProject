@@ -112,17 +112,29 @@ def produce_messages(environment, topic, count):
         schema_manager = SchemaManager()
         serializer = schema_manager.get_avro_serializer(ORDER_EVENT_SCHEMA)
 
-    for i in range(23,count):
-        event = generate_order_event()
-        value = (serializer(event, SerializationContext(topic, MessageField.VALUE))
-                 if environment == "confluent" else
-                 json.dumps(event))
+    try:
+        for i in range(count):
+            event = generate_order_event()
+            value = (serializer(event, SerializationContext(topic, MessageField.VALUE))
+                     if environment == "confluent" else
+                     json.dumps(event))
 
-        producer.produce(topic=topic, key=f"{event['order_id']+'_'+str(i)}", value=value, callback=delivery_report)
-        print(f"Produced message {i+1}/{count}: {event['order_id']}")
-        time.sleep(1)  # adjustable rate
+            producer.produce(
+                topic=topic,
+                key=f"{event['order_id']}_{i}",
+                value=value,
+                callback=delivery_report
+            )
+            print(f"Produced message {i + 1}/{count}: {event['order_id']}")
+            time.sleep(1)  # adjustable rate
 
-    producer.flush()
+    except KeyboardInterrupt:
+        logging.warning("⚠️ Keyboard interrupt detected. Stopping message production...")
+
+    finally:
+        logging.info("Flushing producer...")
+        producer.flush()
+        logging.info("✅ Producer shutdown complete.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Kafka order event producer for Cloudera and Confluent.")
